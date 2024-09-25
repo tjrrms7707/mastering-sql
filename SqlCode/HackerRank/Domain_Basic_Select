@@ -1,0 +1,43 @@
+/* Format 
+--문제이름
+Query문
+
+문제에 접속하고 싶다면
+link:
+https://www.hackerrank.com/challenges/Problem_name/problem
+
+Problem_name에 --문제이름을 넣으면 된다.(--제외)
+
+*/
+
+
+--Revising-the-Select-Query
+select * from CITY 
+where population > 100000 
+AND COUNTRYCODE='USA';
+
+
+--Revising-the-Select-Query-2
+
+select NAME from CITY
+where population > 120000
+and COUNTRYCODE = 'USA';
+
+-- select by id
+select * from CITY
+where ID = 1661;
+
+--japanese-cities-attributes
+select * from CITY
+where COUNTRYCODE = 'JPN';
+
+--japanese-cities-name
+select name from CITY
+where COUNTRYCODE = 'JPN';
+
+--weather-observation-station-1
+select CITY, STATE from STATION;
+
+--weather-observation-station-3
+select DISTINCT CITY  from STATION 
+where MOD(ID,2) = 0;
