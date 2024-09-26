@@ -1,4 +1,6 @@
 /* Format 
+Mysql 기준으로 작성
+
 --문제이름
 Query문
 
@@ -14,30 +16,89 @@ Problem_name에 --문제이름을 넣으면 된다.(--제외)
 --Revising-the-Select-Query
 select * from CITY 
 where population > 100000 
-AND COUNTRYCODE='USA';
+AND COUNTRYCODE='USA'
 
 
 --Revising-the-Select-Query-2
 
 select NAME from CITY
 where population > 120000
-and COUNTRYCODE = 'USA';
+and COUNTRYCODE = 'USA'
 
 -- select by id
 select * from CITY
-where ID = 1661;
+where ID = 1661
 
 --japanese-cities-attributes
 select * from CITY
-where COUNTRYCODE = 'JPN';
+where COUNTRYCODE = 'JPN'
 
 --japanese-cities-name
 select name from CITY
-where COUNTRYCODE = 'JPN';
+where COUNTRYCODE = 'JPN'
 
 --weather-observation-station-1
-select CITY, STATE from STATION;
+select CITY, STATE from STATION
 
 --weather-observation-station-3
 select DISTINCT CITY  from STATION 
-where MOD(ID,2) = 0;
+where MOD(ID,2) = 0
+
+--weather-observation-station-4
+select count(*) - count(distinct CITY) as COUNT from STATION 
+
+--weather-observation-station-5
+(SELECT CITY , LENGTH(CITY) FROM STATION
+ORDER BY LENGTH(CITY) DESC , CITY
+LIMIT 1)
+UNION
+(SELECT CITY , LENGTH(CITY) FROM STATION
+ORDER BY LENGTH(CITY)  , CITY
+LIMIT 1)
+
+--/weather-observation-station-6
+/*
+정규표현식을 사용하여 검색한다.
+^A : A로 시작하는것
+A$ : A로 끝나는 것 
+*/
+SELECT CITY FROM STATION
+WHERE CITY REGEXP '^[aeiou]'
+
+--weather-observation-station-7
+SELECT DISTINCT CITY FROM STATION
+WHERE CITY REGEXP '[aeiou]$'
+
+--weather-observation-station-8
+SELECT DISTINCT CITY 
+FROM STATION
+WHERE CITY REGEXP '^[aeiou]' 
+AND CITY REGEXP '[aeiou]$' 
+
+--weather-observation-station-9
+SELECT DISTINCT CITY
+FROM STATION
+WHERE CITY REGEXP '^[^aeiou]'
+
+--weather-observation-station-10
+SELECT DISTINCT CITY
+FROM STATION
+WHERE CITY REGEXP '[^aeiou]$'
+
+--weather-observation-station-11
+SELECT DISTINCT CITY 
+FROM STATION
+WHERE CITY REGEXP '^[^aeiou]' 
+OR CITY REGEXP '[^aeiou]$'
+
+--weather-observation-station-12
+SELECT DISTINCT CITY 
+FROM STATION
+WHERE CITY REGEXP '^[^aeiou]' 
+AND CITY REGEXP '[^aeiou]$'
+
+--more-than-75marks
+SELECT Name , Marks 
+FROM STUDENTS
+WHERE Marks > 75
+ORDER BY RIGHT (Name,3) , Id asc
