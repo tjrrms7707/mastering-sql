@@ -186,6 +186,56 @@ SELECT max(population)-min(population)
 FROM city
 
 --the-blunder
-SELECT CEILING(AVG(salary)-AVG(CAST(REPLACE(CAST(salary AS CHAR), '0, '') AS SIGNED)))
+SELECT CEILING(AVG(salary)-AVG(CAST(REPLACE(CAST(salary AS CHAR), '0', '') AS SIGNED)))
 FROM employees
 
+--earnings-of-employees
+SELECT months * salary as earnings , count(*)
+FROM employee
+GROUP BY earnings
+ORDER BY earnings DESC
+LIMIT 1
+
+--asian-population
+SELECT SUM(city.population)
+FROM city inner join country
+ON city.countrycode = country.code
+WHERE country.continent = 'Asia'
+
+SELECT SUM(c1.population)
+FROM city as c1 , country as c2
+WHERE c2.continent = 'Asia' 
+AND c1.countrycode = c2.code
+
+--african-cities
+모든 시티에 이름을 쿼리해라 아프리카에 이름
+SELECT city.name
+FROM city , country
+WHERE country.continent = 'Africa'
+AND city.countrycode = country.code 
+
+--average-population-of-each-continent
+SELECT continent , floor(avg(c1.population))
+FROM city c1 inner join country c2
+ON c1.countrycode = c2.code
+GROUP BY continent
+
+--draw-the-triangle-1
+set @num = 21;
+SELECT REPEAT("* ", @num := @num -1) 
+FROM information_schema.tables
+
+--draw-the-triangle-2
+set @num = 1;
+SELECT REPEAT("* ", @num := @num + 1) 
+FROM information_schema.tables
+LIMIT 20
+
+--what-type-of-triangle
+SELECT CASE 
+    WHEN a +b <=c OR b+c <=a OR a+c <=b THEN 'Not A Triangle'
+    WHEN a = b and b = c THEN 'Equilateral'
+    WHEN a = b or b = c or a = c THEN 'Isosceles'
+    ELSE 'Scalene'
+END
+FROM triangles

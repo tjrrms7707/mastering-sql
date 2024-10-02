@@ -104,3 +104,6 @@ MySQL에서 **CAST()**와 **CONVERT()**는 거의 동일하게 동작합니다. 
 
 - CAST() 구문: CAST(expression AS target_type)
 - CONVERT() 구문: CONVERT(expression, target_type) 또는 문자셋 변환 시 CONVERT(expression USING charset).
+
+# JOIN 
+![](https://i.imgur.com/76szEjc.png)
