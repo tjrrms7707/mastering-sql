@@ -149,3 +149,186 @@ AND u.purchase_date BETWEEN p.start_date AND p.end_date
 GROUP BY product_id
 
 --1280. Students and Examinations
+SELECT s.student_id ,s.student_name ,sub.subject_name ,IFNULL(s2.attended_exams,0) AS attended_exams
+FROM
+Students s CROSS JOIN Subjects sub
+LEFT JOIN (SELECT student_id  , subject_name,count(*) AS attended_exams
+FROM Examinations
+GROUP BY student_id , subject_name) s2
+ON s.student_id = s2.student_id 
+AND sub.subject_name =s2.subject_name 
+ORDER BY s.student_id,sub.subject_name
+
+--1327. List the Products Ordered in a Period
+SELECT product_name , SUM(UNIT) as unit
+FROM Orders o INNER JOIN Products p
+ON o.product_id  = p.product_id  
+WHERE o.order_date BETWEEN '2020-02-01' AND LAST_DAY('2020-02-01')
+GROUP BY p.product_id,p.product_name
+HAVING SUM(UNIT)>=100
+
+--1378. Replace Employee ID With The Unique Identifier
+SELECT unique_id , name
+FROM Employees e LEFT JOIN EmployeeUNI eu
+ON e.id = eu.id
+
+--1407. Top Travellers
+SELECT name , IFNULL(SUM(distance),0) AS travelled_distance 
+FROM
+Users u LEFT JOIN Rides r 
+ON u.id = r.user_id
+GROUP BY r.user_id
+ORDER BY 2 DESC, 1
+
+--1484. Group Sold Products By The Date
+SELECT sell_date, COUNT(DISTINCT product) as num_sold , group_concat(DISTINCT product ORDER BY product) AS products
+FROM Activities
+GROUP BY sell_date 
+ORDER BY 1
+
+--1517. Find Users With Valid E-Mails
+
+
+--1527. Patients With a Condition
+SELECT *
+FROM Patients
+WHERE  conditions LIKE 'DIAB1%'
+OR conditions LIKE '% DIAB1%'
+
+--1581. Customer Who Visited but Did Not Make Any Transactions
+SELECT customer_id , COUNT(*) AS count_no_trans
+FROM Visits v LEFT JOIN Transactions t
+USING(visit_id)
+WHERE transaction_id IS NULL
+GROUP BY customer_id 
+
+--1587. Bank Account Summary II
+SELECT   u.name AS name , sum(t.amount) as balance
+FROM Transactions t JOIN Users u
+USING(account)
+GROUP BY t.account
+HAVING sum(amount) >10000
+
+--1633. Percentage of Users Attended a Contest
+SELECT contest_id , ROUND((COUNT(*)/(select count(*) from Users)*100),2) AS percentage
+FROM Register r JOIN Users u
+USING(user_id)
+GROUP BY r.contest_id
+ORDER BY 2 DESC,1
+
+--1661. Average Time of Process per Machine
+SELECT a1.machine_id, round(avg(a2.timestamp-a1.timestamp), 3) AS processing_time
+FROM Activity a1
+JOIN Activity a2
+USING (machine_id, process_id)
+WHERE a1.activity_type = 'start'
+AND a2.activity_type = 'end'
+GROUP BY machine_id
+
+--1667. Fix Names in a Table
+SELECT user_id , CONCAT(UPPER(LEFT(name,1)),LOWER(SUBSTRING(name,2))) as name
+FROM Users
+ORDER BY 1
+
+--1683. Invalid Tweets
+SELECT tweet_id
+FROM Tweets
+WHERE LENGTH(content) > 15
+
+
+--1693. Daily Leads and Partners
+SELECT 
+date_id , 
+make_name , 
+count(DISTINCT lead_id ) AS unique_leads,
+count(DISTINCT parter_id) AS unique_partners
+FROM DailySales
+GROUP BY date_id , make_name
+
+
+--1729. Find Followers Count
+SELECT user_id , COUNT(follower_id ) as followers_count
+FROM Followers 
+GROUP BY 1
+ORDER BY 1
+
+--1731. The Number of Employees Which Report to Each Employee
+SELECT e1.reports_to AS employee_id , e2.name AS name , COUNT(*) AS reports_count , ROUND(AVG(e1.age)) AS 
+average_age
+FROM Employees e1 INNER JOIN Employees e2
+ON e1.reports_to = e2.employee_id
+WHERE e1.reports_to IS NOT NULL
+GROUP BY e1.reports_to
+ORDER BY 1
+
+--1741. Find Total Time Spent by Each Employee
+SELECT event_day as day , emp_id , sum(out_time) - sum(in_time) AS total_time
+FROM Employees
+GROUP BY 1 , 2
+
+--1757. Recyclable and Low Fat Products
+SELECT product_id
+FROM Products
+WHERE low_fats = 'Y' 
+AND recyclable = 'Y'
+
+--1789. Primary Department for Each Employee
+SELECT employee_id, department_id
+FROM employee e
+WHERE primary_flag = 'Y'
+OR (
+  employee_id in (
+    select employee_id from employee
+    group by employee_id 
+    having count(employee_id) = 1
+  )
+)
+
+--1795. Rearrange Products Table
+SELECT product_id, 'store1' AS store, store1 AS price
+FROM Products
+WHERE store1 IS NOT NULL
+UNION ALL
+SELECT product_id, 'store2' AS store, store2 AS price
+FROM Products
+WHERE store2 IS NOT NULL
+UNION ALL
+SELECT product_id, 'store3' AS store, store3 AS price
+FROM Products
+WHERE store3 IS NOT NULL
+
+--1873. Calculate Special Bonus
+SELECT employee_id  , IF(MOD(employee_id,2)=1,IF(LEFT(name,1) ='M',0,salary) , 0) as bonus
+FROM Employees
+ORDER BY 1
+
+--1890. The Latest Login in 2020
+SELECT user_id , MAX(time_stamp) as last_stamp
+FROM Logins
+WHERE time_stamp >='2020-01-01' AND time_stamp < '2021-01-01'
+GROUP BY 1 
+
+--1965. Employees With Missing Information
+SELECT employee_id 
+FROM (
+    SELECT e.employee_id , e.name , s.salary 
+    FROM Employees e LEFT JOIN Salaries s
+    ON e.employee_id  = s.employee_id 
+    UNION
+    SELECT s.employee_id , e.name     , s.salary
+    FROM Employees e RIGHT JOIN Salaries s
+    ON e.employee_id  = s.employee_id 
+) sub
+WHERE name IS NULL OR salary IS NULL
+ORDER BY 1
+
+--1978. Employees Whose Manager Left the Company
+SELECT e1.employee_id 
+FROM Employees e1 LEFT JOIN Employees e2
+ON e1.manager_id = e2.employee_id
+WHERE e2.employee_id IS NULL
+AND e1.manager_id IS NOT NULL
+AND e1.salary < 30000
+ORDER BY 1
+
+--2356. Number of Unique Subjects Taught by Each Teacher
