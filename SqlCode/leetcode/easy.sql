@@ -187,7 +187,8 @@ GROUP BY sell_date
 ORDER BY 1
 
 --1517. Find Users With Valid E-Mails
-
+select * from Users 
+WHERE mail REGEXP '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode[.]com$';
 
 --1527. Patients With a Condition
 SELECT *
@@ -332,3 +333,6 @@ AND e1.salary < 30000
 ORDER BY 1
 
 --2356. Number of Unique Subjects Taught by Each Teacher
+SELECT teacher_id , COUNT(DISTINCT subject_id) as cnt
+FROM Teacher
+GROUP BY teacher_id 
