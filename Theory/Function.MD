@@ -79,7 +79,91 @@ GREATEST(숫자1, 숫자2, 숫자3 ...)
 ```
 LEAST(숫자1, 숫자2, 숫자3 ...)
 ```
+# 문자열 처리 함수
+## 
+11. RTRIM
+21. REGEXP_REPLACE
 
+
+2. SUBSTRING   
+12. LEFT
+22. NULL 값을 처리하기 위한 함수
+
+
+3. LENGTH  
+13. RIGHT
+     22-1. ISNULL
+
+
+4. TRIM     
+14. REVERSE
+     22-2. COALESCE
+
+
+5. UPPER 
+15. ASCII
+ 
+
+
+6. LOWER        
+16. CHAR
+ 
+
+
+7. REPLACE  
+17. STRCMP
+ 
+
+
+8. POSITION
+18. CONCAT_WS
+ 
+
+
+9. CHAR_LENGTH
+19. SUBSTR_COUNT
+ 
+
+
+10. LTRIM
+20. INSTR
+
+
+# 문자열 검색 함수
+## LIKE
+
+## LOCATE
+
+## INSTR
+# GROUP_CONCAT
+## 1) 사용법
+```
+SELECT team as '팀', GROUP_CONCAT(member1) as '같은팀'
+FROM department1
+GROUP BY team;
+```
+
+## 2)구분자 변경하기
+SEPARETOR로 원하는 구분자를 사용해주면 된다.
+```
+SELECT team as '팀', GROUP_CONCAT(member1 SEPARETOR '-') as '같은팀'
+FROM department1
+GROUP BY team;
+```
+
+## 3)DISTINCT 사용
+중복되는 문자열 있다면 컬럼앞에 DISTINCT를 사용한다.
+
+## 4)ORDER BY 사용
+문자열 정렬이 필요할떄는 ORDER BY를 사용하여 정렬한다.
+
+## 5) 중복제거, 문자열 정렬, 구분자 변경을 함께 사용시 순서
+DISTINCT > ORDER BY > SEPERATOR
+```
+SELECT team as '팀', GROUP_CONCAT(DISTINCT member1 ORDER BY member1 SEPARETOR '-') as '같은팀'
+FROM department1
+GROUP BY team;
+```
 # 데이터 타입 변환 함수
 ##  CAST
 ```

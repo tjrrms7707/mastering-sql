@@ -62,6 +62,16 @@ group by customer_number
 ORDER BY count(order_number) desc 
 LIMIT 1 
 
+--595.Big Countries
+SELECT name , population , area
+FROM World
+WHERE area >=3000000 
+OR population >=25000000
+
+--619.Biggest Single Number
+SELECT max(a.num) as num
+FROM (SELECT num FROM Mynumbers GROUP BY num HAVING count(*)=1) AS a;
+
 --620. Not Boring Movies
 SELECT *
 FROM cinema
