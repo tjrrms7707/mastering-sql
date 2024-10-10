@@ -62,15 +62,44 @@ group by customer_number
 ORDER BY count(order_number) desc 
 LIMIT 1 
 
---595.Big Countries
-SELECT name , population , area
-FROM World
-WHERE area >=3000000 
-OR population >=25000000
+--595. Big Countries
+SELECT name, population , area
+FROM World 
+WHERE population >= 25000000
+OR area >=3000000
 
---619.Biggest Single Number
+--596. Classes More Than 5 Students
+SELECT class
+FROM Courses
+GROUP BY class
+having count(class) >=5
+
+--607.Sales Person
+SELECT name 
+FROM SalesPerson
+WHERE sales_id not in (
+    SELECT sales_id 
+    FROM Orders
+    WHERE com_id = (
+        SELECT com_id
+        FROM Company
+        WHERE name = "RED"
+    )
+)
+
+--610. Triangle Judgement
+SELECT 
+    x,y,z,
+    CASE
+        WHEN x+y > z AND y + z > x AND  x + z > y THEN 'Yes'
+        ELSE 'No'
+    END as 'triangle'
+FROM Triangle 
+
+--619. Bigget Single Number
 SELECT max(a.num) as num
 FROM (SELECT num FROM Mynumbers GROUP BY num HAVING count(*)=1) AS a;
+
 
 --620. Not Boring Movies
 SELECT *

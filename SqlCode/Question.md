@@ -15,3 +15,6 @@ WHERE id NOT IN (
         GROUP BY email
     ) sub)
 ```
+### 607번
+서브쿼리를 이용하는 것 보다 조인하는 것이 처리속도가 더 빠르나?
+
