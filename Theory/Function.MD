@@ -170,35 +170,35 @@ FROM department1
 GROUP BY team;
 ```
 # DATE 함수
-## **현재 날짜와 시간 출력**
-**NOW()**
-**SYSDATE()**
-**CURRENT_TIMESTAMP()** 
-## **현재 날짜 출력**
- **CURDATE()** 
-**CURRENT_DATE()** **​**
-## **현재 시간 출력**
- **CURTIME()**
-**CURRENT_TIME()** **​**
-## **날짜에서 기준값 만큼 덧셈**
- **DATE_ADD(날짜, INTERVAL 기준값)** 
-**※ 기준값 : YEAR, MONTH, DAY, HOUR, MINUTE, SECOND** 
-## **날짜에서 기준값 만큼 뺄셈**
- **DATE_SUB(날짜, INTERVAL 기준값)** 
-**※ 기준값 : YEAR, MONTH, DAY, HOUR, MINUTE, SECOND** 
-## **날짜 포맷**
- **YEAR(날짜) -날짜의 연도 출력.** 
- **MONTH(날짜) -날짜의 월 출력.** 
- **MONTHNAME(날짜) -날짜의 월을 영어로 출력.** 
- **DAYNAME(날짜) -날짜의 요일일 영어로 출력.** 
- **DAYOFMONTH(날짜) -날짜의 월별 일자 출력.** 
- **DAYOFWEEK(날짜) -날짜의 주별 일자 출력(월요일(0),화요일(1)...일요일(6))** 
- **WEEKDAY(날짜) -날짜의 주별 일자 출력(월요일(0),화요일(1)...일요일(6))** 
- **DAYOFYEAR(날짜) -일년을 기준으로 한 날짜까지의 날 수.** 
- **WEEK(날짜) -일년 중 몇 번쨰 주.** **​**
- **FROM_DAYS(날 수) : 00년 00월 00일부터 날 수 만큼 경과한 날의 날짜 출력.** 
- **TO_DAYS(날짜) : 00 년 00 월 00일 부터 날짜까지의 일자 수 출력.** 
- **DATE_FORMAT(날짜,'형식') : 날짜를 형식에 맞게 출력**
+## 현재 날짜와 시간 출력
+NOW()
+SYSDATE()
+CURRENT_TIMESTAMP() 
+## 현재 날짜 출력
+CURDATE() 
+CURRENT_DATE() ​
+## 현재 시간 출력
+CURTIME()
+CURRENT_TIME() ​
+## 날짜에서 기준값 만큼 덧셈
+DATE_ADD(날짜, INTERVAL 기준값) 
+※ 기준값 : YEAR, MONTH, DAY, HOUR, MINUTE, SECOND 
+## 날짜에서 기준값 만큼 뺄셈
+DATE_SUB(날짜, INTERVAL 기준값) 
+※ 기준값 : YEAR, MONTH, DAY, HOUR, MINUTE, SECOND 
+## 날짜 포맷
+YEAR(날짜) -날짜의 연도 출력. 
+MONTH(날짜) -날짜의 월 출력. 
+MONTHNAME(날짜) -날짜의 월을 영어로 출력. 
+DAYNAME(날짜) -날짜의 요일일 영어로 출력. 
+DAYOFMONTH(날짜) -날짜의 월별 일자 출력. 
+DAYOFWEEK(날짜) -날짜의 주별 일자 출력(월요일(0),화요일(1)...일요일(6)) 
+WEEKDAY(날짜) -날짜의 주별 일자 출력(월요일(0),화요일(1)...일요일(6)) 
+DAYOFYEAR(날짜) -일년을 기준으로 한 날짜까지의 날 수. 
+WEEK(날짜) -일년 중 몇 번쨰 주. ​
+FROM_DAYS(날 수) : 00년 00월 00일부터 날 수 만큼 경과한 날의 날짜 출력. 
+TO_DAYS(날짜) : 00 년 00 월 00일 부터 날짜까지의 일자 수 출력. 
+DATE_FORMAT(날짜,'형식') : 날짜를 형식에 맞게 출력
 # 데이터 타입 변환 함수
 ##  CAST
 ```
@@ -244,4 +244,4 @@ ON [join_condition] WHERE [condition];
 - 위 구문에서 cte_name은 임의의 이름으로, 서브쿼리에서 반환된 결과를 참조할 수 있는 임시 테이블의 이름입니다.  
   서브쿼리 내에서 SELECT문을 사용하여 데이터를 검색하고, 해당 결과 집합을 cte_name으로 정의한 CTE에 저장합니다.
   그런 다음 CTE를 메인 쿼리에서 참조하여 추가 데이터를 가져올 수 있습니다.
-  - 추가로 열의 이름도 지정하고 싶다면 테이블이름 뒤에 (col1,col2,...)으로 지정하면 된다.
+- 추가로 열의 이름도 지정하고 싶다면 테이블이름 뒤에 (col1,col2,...)으로 지정하면 된다.
