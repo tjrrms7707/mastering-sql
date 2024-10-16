@@ -44,6 +44,49 @@ FROM employee
 GROUP BY managerId
 HAVING COUNT(*) >= 5 )
 
+--585.Investments in 2016
+SELECT ROUND(SUM(tiv_2016),2) as tiv_2016
+FROM (
+    SELECT tiv_2015  , tiv_2016 
+    FROM Insurance 
+    GROUP BY lat , lon
+    HAVING COUNT(*) = 1
+)SUB
+WHERE tiv_2015  IN (
+    SELECT tiv_2015
+    FROM Insurance 
+    GROUP BY tiv_2015 
+    HAVING COUNT(*) > 1 
+)
+
+--602
+WITH result AS(
+SELECT requester_id AS id , count(*) AS cnt
+FROM RequestAccepted
+GROUP BY requester_id
+UNION ALL
+SELECT accepter_id AS id ,  count(*) AS cnt
+FROM RequestAccepted
+GROUP BY accepter_id 
+)
+
+SELECT id , sum(cnt) AS num
+FROM result
+GROUP BY id 
+ORDER BY 2 DESC 
+LIMIT 1
+
+-626.Exchange Seats
+SELECT CASE
+	WHEN MOD(id,2) = 1 AND id = (SELECT COUNT(*) FROM Seat) THEN id
+	WHEN MOD(id,2) = 1 THEN id + 1
+	ELSE
+		id - 1
+	END AS id,
+	student
+FROM Seat
+ORDER BY id 
+
 --1045.Customers Who Bought All Products
 SELECT customer_id
 FROM Customer
@@ -104,6 +147,28 @@ FROM total
 WHERE Total_Weight <= 1000
 ORDER BY Total_Weight DESC
 LIMIT 1
+
+--1341.Movie Rating
+SELECT name AS results
+FROM (
+    SELECT u.name , count(*)
+    FROM MovieRating m JOIN Users u
+    USING (user_id)
+    GROUP BY u.name
+    ORDER BY 2 DESC , 1
+    LIMIT 1
+) t
+UNION ALL
+SELECT title AS results
+FROM (
+    SELECT m.title , AVG(rating)
+    FROM movierating mr 
+    JOIN Movies m
+    USING(movie_id)
+    WHERE created_at LIKE "2020-02%"
+    GROUP BY mr.movie_id
+    ORDER BY 2 DESC , 1	
+    LIMIT 1) t2
 
 --1934. Confirmation Rate
 SELECT s.user_id , IFNULL(sub.confirmation_rate,0) as confirmation_rate
