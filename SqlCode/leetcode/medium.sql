@@ -8,6 +8,10 @@ SELECT IF(count(salary)=0,null,salary) AS SecondHighestSalary
 FROM sal_ranking
 WHERE salary_rank = 2
 
+--178.Rank Scores
+SELECT score , DENSE_RANK() OVER (ORDER BY score DESC) AS 'rank'
+FROM Scores
+
 --180.Consecutive Numbers
 SELECT DISTINCT l1.num AS ConsecutiveNums
 FROM Logs l1 
