@@ -20,6 +20,14 @@ LEFT JOIN Logs l3 ON l1.id = l3.id -2
 WHERE l1.num = l2.num
 AND l2.num = l3.num
 
+--184. Department Highest Salary
+SELECT d.name  AS Department, e.name AS employee , e.salary
+FROM (
+SELECT departmentid ,DENSE_RANK() OVER (PARTITION BY departmentId ORDER BY salary DESC)  AS sal_rank, name , salary 
+FROM Employee) e JOIN Department d
+ON e.departmentId  = d.id
+WHERE sal_rank = 1 
+
 --550. Game Play Analysis IV
 WITH temp1(player_id , value_day ,value) as
 (
@@ -80,6 +88,14 @@ GROUP BY id
 ORDER BY 2 DESC 
 LIMIT 1
 
+--608. Tree Node
+SELECT id , CASE
+WHEN p_id is null THEN 'Root'
+WHEN id IN (SELECT p_id FROM Tree) THEN 'Inner'
+ELSE 'Leaf'
+END AS 'type'
+FROM Tree 
+
 -626.Exchange Seats
 SELECT CASE
 	WHEN MOD(id,2) = 1 AND id = (SELECT COUNT(*) FROM Seat) THEN id
@@ -103,6 +119,18 @@ FROM Sales
 WHERE (product_id , year) IN (SELECT product_id ,MIN(year)
 FROM Sales
 GROUP BY product_id)
+
+--1158.Market Analysis I
+WITH 2019_buyer AS(
+    SELECT buyer_id , count(*) AS cnt
+    FROM Orders
+    WHERE order_date LIKE "2019%"
+    GROUP BY buyer_id 
+)
+SELECT u.user_id AS buyer_id , join_date , IFNULL(cnt ,0) AS orders_in_2019
+FROM Users u LEFT JOIN 2019_buyer b 
+ON u.user_id = b.buyer_id 
+
 
 --1164.Product Price at a Given Date
 SELECT product_id , new_price as price
@@ -173,6 +201,17 @@ FROM (
     GROUP BY mr.movie_id
     ORDER BY 2 DESC , 1	
     LIMIT 1) t2
+
+--1393.Capital Gain/Loss
+WITH summary AS(
+    SELECT stock_name , operation  , sum(price) as total_price
+    FROM Stocks
+    GROUP BY stock_name , operation
+)
+
+SELECT stock_name , SUM(IF(operation ='Sell',total_price , -1*total_price)) AS capital_gain_loss
+FROM summary
+GROUP BY stock_name
 
 --1934. Confirmation Rate
 SELECT s.user_id , IFNULL(sub.confirmation_rate,0) as confirmation_rate
