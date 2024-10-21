@@ -241,3 +241,11 @@ SELECT c.category, IFNULL(t.cnt,0) AS accounts_count
 FROM c
      LEFT JOIN t using(category)
 ORDER BY 2 DESC
+
+--3320.Odd and Even Transactions
+SELECT transaction_date , 
+SUM(IF(MOD(amount,2)!=0,amount,0)) AS odd_sum,
+SUM(IF(MOD(amount,2)=0,amount,0)) AS even_sum
+FROM transactions
+GROUP BY 1
+ORDER BY 1 
