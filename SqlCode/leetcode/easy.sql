@@ -87,7 +87,7 @@ WHERE sales_id not in (
     )
 )
 
---610. Triangle Judgement
+--610. Triangle Judgement-
 SELECT 
     x,y,z,
     CASE
