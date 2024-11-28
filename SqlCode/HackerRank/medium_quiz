@@ -25,3 +25,18 @@ STU.MARKS
 FROM STUDENTS STU JOIN GRADES GRA
 ON STU.MARKS BETWEEN GRA.MIN_MARK AND GRA.MAX_MARK
 ORDER BY 2 DESC , 1 , 3
+
+
+--Top Competitors
+--hackers , difficulty , Challenges , Submissions
+
+SELECT
+SUB.hacker_id , HAC.name
+FROM Submissions SUB 
+    JOIN Challenges CHA ON SUB.challenge_id = CHA.challenge_id
+    JOIN Difficulty DIF ON CHA.difficulty_level = DIF.difficulty_level
+    JOIN Hackers HAC ON SUB.hacker_id = HAC.hacker_id
+WHERE SUB.SCORE = DIF.SCORE
+GROUP BY SUB.hacker_id , HAC.name
+having count(*)>1
+ORDER BY count(*) DESC , 1 
