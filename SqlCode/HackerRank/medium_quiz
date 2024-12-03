@@ -40,3 +40,25 @@ WHERE SUB.SCORE = DIF.SCORE
 GROUP BY SUB.hacker_id , HAC.name
 having count(*)>1
 ORDER BY count(*) DESC , 1 
+
+--Symmetric Pairs
+(
+# x! = y
+SELECT f1.X, f1.Y
+FROM Functions f1
+    INNER JOIN Functions f2
+        ON f1.X = f2.Y AND f1.Y = f2.X
+WHERE f1.X < f1.Y 
+
+
+UNION
+
+# x = y
+SELECT X,Y
+FROM Functions
+WHERE X=Y
+GROUP BY X,Y
+HAVING count(*) > 1
+)
+
+ORDER BY X
